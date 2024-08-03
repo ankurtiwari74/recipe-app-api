@@ -9,6 +9,13 @@ COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
 
+# Update CA certificates
+RUN apk --update add ca-certificates && update-ca-certificates
+
+# Use a different mirror (optional)
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.13/main" > /etc/apk/repositories
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.13/community" >> /etc/apk/repositories
+
 ARG DEV=false
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
